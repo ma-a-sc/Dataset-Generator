@@ -1,0 +1,19 @@
+What do I need for the generator:
+- input from the user as to what the variables should be called.
+- input from the user as to what should be the individual obervations set to: int, float, boolean, string, dummy
+- input from the user as to in what range the generated values should be (int,float)
+- input from the user as to what categories should be the strings
+- input from the user as to how many observations should be generated
+- input from the user as to how much one variable should depend on another or multiple variables (but not how heavy exaclty the dependencies are, random in a specific range)
+- input from the user if there should be missing values, missing at random, completely at random, not missing at random
+- option to add more vars or cases later on
+
+Do i need to use numpy? I use numpy.
+
+Can I use json again? Must I?
+
+How do i make the array assesible for other programms? Excel,spss, stata,
+
+What classes are there:
+- everything that should be generated: int,float, boolean, string
+- 
