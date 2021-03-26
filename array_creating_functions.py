@@ -1,18 +1,57 @@
 import numpy as np
+import pandas as pd
+import array_functions as af
+import random
+
 
 def create_variable(var_type, num_of_var):
     if var_type == "int":
-        int_array_empty = np.zeros((1, num_of_var))
-        print(int_array_empty)
-        int_array = np.array([])
+        name = input("V_name")
+
+        v_name =[name]
+
+        how_many_var = num_of_var
+
+        indexes = af.index_setter(how_many_var) 
+
+        ## still need to write a function that fills a defined array with 
+        ## random integer. At the moment it is not in but float in a range of
+        ## -2 to 2.
+        int_array = pd.DataFrame(np.random.randn(how_many_var,1), index=indexes, 
+        columns=(v_name))
+
+        print(int_array)
 
     elif var_type == "float":
+        name = input("V_name")
 
-        float_array = np.array([])
+        v_name =[name]
+
+        how_many_var = num_of_var
+
+        indexes = af.index_setter(how_many_var) 
+
+        int_array = pd.DataFrame(np.random.randn(how_many_var,1), index=indexes, 
+        columns=(v_name))
+
+        print(int_array)
+
 
     elif var_type == "dummy":
 
-        dummy_array = np.array([])
+        name = input("V_name")
+
+        v_name =[name]
+
+        how_many_var = num_of_var
+
+        indexes = af.index_setter(how_many_var)
+
+
+
+        int_array = pd.DataFrame(np.random.randn(how_many_var,1), index=indexes, columns=(v_name))
+
+        print(int_array)
 
     elif var_type == "string":
 
@@ -35,12 +74,3 @@ class descriptive_statistics():
         pass
 
 create_variable("int", 70)
-
-
-### the code that i need to fuse 1d arrays into 2ds and with the 1ds stacked
-
-a = np.array([4.,2.])
->>> b = np.array([3.,8.])
->>> np.column_stack((a,b))     # returns a 2D array
-array([[4., 3.],
-       [2., 8.]])
