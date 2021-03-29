@@ -100,7 +100,7 @@ def create_variable(var_type, num_of_obs, bot, top):
         exit()
 
 
-def recursive_array_creation_numbers(how_many_vars, which_type, number_of_obs):
+def array_creation_numbers(how_many_vars, which_type, number_of_obs):
     x = 1
 
     bot = int(input("Minimum"))
@@ -116,14 +116,22 @@ def recursive_array_creation_numbers(how_many_vars, which_type, number_of_obs):
 
     return array
 
-def recursive_array_creation_string_bool(how_many_vars, which_type, number_of_obs):
+def array_creation_string_bool(how_many_vars, which_type, number_of_obs):
     x = 1
-
+    y = 0
     array = []
 
     while x <= how_many_vars:
         new_var = create_variable(which_type, number_of_obs, bot, top)
         array.append(new_var)
         x += 1
+        y += 1
 
     return array
+
+def array_creation_string_bool2(how_many_vars, which_type, number_of_obs):
+    new_var_dict = {}
+    for i in range(how_many_vars):
+        new_var_dict[i] = create_variable(which_type, number_of_obs, bot, top)
+
+    return new_var_dict
