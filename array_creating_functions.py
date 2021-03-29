@@ -4,117 +4,126 @@ import array_functions as af
 import random
 
 
-def create_variable(var_type, num_of_var):
+def create_variable(var_type, num_of_obs, bot, top):
     if var_type == "int":
         name = input("V_name")
 
-        bot = int(input("Minimum"))
-
-        top = int(input("Maximum"))
-
         v_name =[name]
 
-        how_many_var = num_of_var
+        how_many_obs = num_of_obs
 
-        indexes = af.index_setter(how_many_var) 
+        indexes = af.index_setter(how_many_obs) 
 
-        list_for_array = af.fill_int_aray(bot, top, num_of_var)
+        list_for_array = af.fill_int_aray(bot, top, num_of_obs)
         
         int_array = pd.DataFrame(list_for_array, index=indexes, 
         columns=(v_name))
 
-        print(int_array)
+        return int_array
 
     elif var_type == "float":
         name = input("V_name")
 
-        bot = int(input("Minimum"))
-
-        top = int(input("Maximum"))
-
         v_name =[name]
 
-        how_many_var = num_of_var
+        how_many_obs = num_of_obs
 
-        indexes = af.index_setter(how_many_var) 
+        indexes = af.index_setter(how_many_obs) 
 
-        list_for_array = af.fill_float_array(bot, top, num_of_var)
+        list_for_array = af.fill_float_array(bot, top, num_of_obs)
 
         float_array = pd.DataFrame(list_for_array, index=indexes, 
         columns=(v_name))
 
-        print(float_array)
+        return float_array
 
 
     elif var_type == "dummy":
 
         name = input("V_name")
 
-        bot = 0
+        no = 0
 
-        top = 1
+        yes = 1
 
         v_name =[name]
 
-        how_many_var = num_of_var
+        how_many_obs = num_of_obs
 
-        indexes = af.index_setter(how_many_var) 
+        indexes = af.index_setter(how_many_obs) 
 
-        list_for_array = af.fill_int_aray(bot, top, num_of_var)
+        list_for_array = af.fill_int_aray(no, yes, num_of_obs)
 
         dummy_array = pd.DataFrame(list_for_array, index=indexes, 
         columns=(v_name))
 
-        print(dummy_array)
+        return dummy_array
 
     elif var_type == "string":
         name = input("V_name")
 
         v_name =[name]
 
-        how_many_var = num_of_var
+        how_many_obs = num_of_obs
 
-        indexes = af.index_setter(how_many_var)
+        indexes = af.index_setter(how_many_obs)
 
-        ## A function is needed that fills the array randomly with the possibilities
-        ## given by the user
+        list_of_choices = af.choices_loop()
 
-        int_array = pd.DataFrame(np.random.randn(how_many_var,1), index=indexes, 
+        list_for_array = af.fill_string_array(list_of_choices, num_of_obs)
+
+        string_array = pd.DataFrame(list_for_array, index=indexes, 
         columns=(v_name))
 
-        print(int_array)
+        return string_array
 
-        string_array = np.array([])
 
     elif var_type == "boolean":
         name = input("V_name")
 
         v_name =[name]
 
-        how_many_var = num_of_var
+        how_many_obs = num_of_obs
 
-        indexes = af.index_setter(how_many_var)
+        indexes = af.index_setter(how_many_obs)
 
-        ## Function mussing that fills the array with true and false. Is more or
-        ## less the same as the dummy variable function.
+        list_of_choices = [True, False]
 
-        int_array = pd.DataFrame(np.random.randn(how_many_var,1), index=indexes, 
+        array = af.fill_string_array(list_of_choices, num_of_obs)
+
+        bool_array = pd.DataFrame(array, index=indexes, 
         columns=(v_name))
 
-        print(int_array)
-
-        boolean_array = np.array([])
+        return bool_array
 
     else:
         exit()
 
-def show_array():
-    # print out the array
-    pass
 
-class descriptive_statistics():
+def recursive_array_creation_numbers(how_many_vars, which_type, number_of_obs):
+    x = 1
 
-    def __init__(self):
-        pass
+    bot = int(input("Minimum"))
 
-create_variable("float", 70)
+    top = int(input("Maximum"))
+
+    array = []
+
+    while x <= how_many_vars:
+        new_var = create_variable(which_type, number_of_obs, bot, top)
+        array.append(new_var)
+        x += 1
+
+    return array
+
+def recursive_array_creation_string_bool(how_many_vars, which_type, number_of_obs):
+    x = 1
+
+    array = []
+
+    while x <= how_many_vars:
+        new_var = create_variable(which_type, number_of_obs, bot, top)
+        array.append(new_var)
+        x += 1
+
+    return array
