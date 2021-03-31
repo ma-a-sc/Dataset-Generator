@@ -1,40 +1,32 @@
+from sys import exit
 import numpy as np
 import pandas as pd
-import random
+import array_creating_functions as acf
 
-## for float point numbers between 0 and 1
-## random number in a range, int
 
-## random list generator within a range
+how_many_vars = int(input("How many variables should be created?"))
 
-name = input("Name")
+which_type = input("""
+What type of variable should be created?
+int, float, dummy, string, boolean
+>
+""")
 
-v_name = input("V_name")
+number_of_obs = int(input("How many observations should be created?\n>"))
 
-vv_name =[v_name]
+array = acf.array_creation_string_bool(how_many_vars, which_type, number_of_obs)
 
-how_many_var = int(input("how many"))
+result = pd.concat(array, axis=1)
 
-randomlist = []
-for i in range(0,how_many_var):
-    q = random.randint(1,50)
-    randomlist.append(q)
+array2 = acf.array_creation_string_bool(how_many_vars, which_type, number_of_obs)
 
-x = 0
+result2 = pd.concat(array2, axis=1)
 
-indexes = []
+array3 = pd.DataFrame.join(result, result2)
 
-we = 0
 
-while x < how_many_var:
-    indexes.append(we)
-    x += 1
-    we += 1
+print(result)
 
-y = np.array(randomlist)
+print(result2)
 
-print(y)
-
-s = pd.DataFrame(y(how_many_var,1), index=indexes, columns=(vv_name))
-
-print(s)
+print(array3)
