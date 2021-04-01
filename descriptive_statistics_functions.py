@@ -1,19 +1,26 @@
-class descriptive_statistics(s_type, array):
+import pandas as pd
 
-    def _init__(s_type, array):
-        if self.s_type == "mean":
-            descriptive_statistics.mean(self.array)
+def mean(array):
+    result = array.mean(axis=1)
 
+    print(result)
 
+    return result
+
+def median():
+    pass
+
+def v_min():
+    pass
     
-    def mean():
-
-    def median():
-
-    def v_min():
+def v_max():
+    pass
     
-    def v_max():
-    
-    def mode():
+def mode():
+    pass
 
-    def
+def variance():
+    pass
+
+def standard_deviation():
+    pass

@@ -2,6 +2,7 @@ from sys import exit
 import numpy as np
 import pandas as pd
 import array_creating_functions as acf
+import descriptive_statistics_functions as dsf
 
 
 how_many_vars = int(input("How many variables should be created?"))
@@ -24,9 +25,14 @@ result2 = pd.concat(array2, axis=1)
 
 array3 = pd.DataFrame.join(result, result2)
 
+result3 = dsf.descriptive_statistics.mean(array3)
+
 
 print(result)
 
 print(result2)
 
 print(array3)
+
+print(result3)
+

@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import array_creating_functions as acf
 from functools import reduce
+import descriptive_statistics_functions as dsf
 
 def user_inputs(): 
     how_many_vars = int(input("How many variables should be created?"))
@@ -49,10 +50,14 @@ def recursive_user_input():
     elif con == "No":
         result_final = reduce(lambda left, right: pd.DataFrame.join(left, right), list_of_results)
 
-
         print(result_final)
 
+        result_final_mean_t = dsf.mean(result_final)
 
+        result_final_mean = result_final.mean(axis=0)
+
+        print(result_final_mean)
+        
         exit()
 
     else:

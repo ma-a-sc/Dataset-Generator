@@ -56,11 +56,13 @@ def create_variable_number(var_type, num_of_obs, bot, top):
 
         dummy_array = pd.DataFrame(list_for_array, index=indexes, 
         columns=(v_name))
+        
+        return dummy_array
 
     else:
         exit()
 
-        return dummy_array
+        
 def create_variable_string_boolean(var_type, num_of_obs):
 
     if var_type == "string":

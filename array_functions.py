@@ -59,5 +59,3 @@ def choices_loop():
         print(list_of_choices)
 
     return list_of_choices
-
-
