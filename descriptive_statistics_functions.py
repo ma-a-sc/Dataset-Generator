@@ -1,26 +1,36 @@
 import pandas as pd
 
 def mean(array):
-    result = array.mean(axis=1)
-
-    print(result)
+    result = array.mean(axis=0)
 
     return result
 
 def median():
-    pass
+    result = array.mean(axis=0)
+
+    return result
 
 def v_min():
-    pass
+    result = array.min(axis=0)
+
+    return result
     
 def v_max():
-    pass
+    result = array.min(axis=0)
+
+    return result
     
 def mode():
-    pass
+    result = array.max(axis=0)
+
+    return result
 
 def variance():
-    pass
+    result = array.var(axis=0)
+
+    return result
 
 def standard_deviation():
-    pass
+    result = array.std(axis=0)
+
+    return result
