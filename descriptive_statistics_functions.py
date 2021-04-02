@@ -16,12 +16,12 @@ def v_min():
     return result
     
 def v_max():
-    result = array.min(axis=0)
+    result = array.max(axis=0)
 
     return result
     
 def mode():
-    result = array.max(axis=0)
+    result = array.mode(axis=0)
 
     return result
 
