@@ -1,3 +1,4 @@
+import input_output_func as iof
 options = input("""
 Which of the following options do you want to select? 
 Multiple can be selected
@@ -15,6 +16,4 @@ print(options_split)
 
 ## options must be safed at least in the one session, write it to a txt file using json
 
-for i in options:
-    check_option
-    pass
+iof.clear_txt("settings.txt")
