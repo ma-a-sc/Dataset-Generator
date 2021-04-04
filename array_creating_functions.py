@@ -6,7 +6,7 @@ import random
 
 def create_variable_number(var_type, num_of_obs, bot, top):
     if var_type == "int":
-        name = input("V_name")
+        name = input("Variable name\n>")
 
         v_name =[name]
 
@@ -17,7 +17,7 @@ def create_variable_number(var_type, num_of_obs, bot, top):
         list_for_array = af.fill_int_aray(bot, top, num_of_obs)
         
         int_array = pd.DataFrame(list_for_array, index=indexes, 
-        columns=(v_name))
+        columns=v_name)
 
         return int_array
 
@@ -33,7 +33,7 @@ def create_variable_number(var_type, num_of_obs, bot, top):
         list_for_array = af.fill_float_array(bot, top, num_of_obs)
 
         float_array = pd.DataFrame(list_for_array, index=indexes, 
-        columns=(v_name))
+        columns=v_name)
 
         return float_array
 
@@ -55,7 +55,7 @@ def create_variable_number(var_type, num_of_obs, bot, top):
         list_for_array = af.fill_int_aray(no, yes, num_of_obs)
 
         dummy_array = pd.DataFrame(list_for_array, index=indexes, 
-        columns=(v_name))
+        columns=v_name)
         
         return dummy_array
 
@@ -79,7 +79,7 @@ def create_variable_string_boolean(var_type, num_of_obs):
         list_for_array = af.fill_string_array(list_of_choices, num_of_obs)
 
         string_array = pd.DataFrame(list_for_array, index=indexes, 
-        columns=(v_name))
+        columns=v_name)
 
         return string_array
 
@@ -98,7 +98,7 @@ def create_variable_string_boolean(var_type, num_of_obs):
         array = af.fill_string_array(list_of_choices, num_of_obs)
 
         bool_array = pd.DataFrame(array, index=indexes, 
-        columns=(v_name))
+        columns=v_name)
 
         return bool_array
 
@@ -132,3 +132,6 @@ def array_creation_string_bool(how_many_vars, which_type, number_of_obs):
         x += 1
 
     return array
+
+def store_dataframe(dataframe):
+    dataframe.to_csv('out.csv')

@@ -14,53 +14,59 @@ def descriptive_stats_ex(result_final):
         settings = m.read()
             
     settings_var = json.loads(settings)
-    print(settings_var)
+    print(f"\n\n{settings_var}")
 
     d_statistics_stored = []
 
     for i in settings_var:
         if i == "mean":
+            x = ["Mean"]
             var_mean = dsf.mean(result_final)
-            var_mean_frame = pd.DataFrame(var_mean)
+            var_mean_frame = pd.DataFrame(var_mean, columns=x)
             d_statistics_stored.append(var_mean_frame)
 
         elif i == "median":
+            x = ["Median"]
             var_median = dsf.median(result_final)
-            var_median_frame = pd.DataFrame(var_median)
+            var_median_frame = pd.DataFrame(var_median, columns=x)
             d_statistics_stored.append(var_median_frame)
             
         elif i == "min":
+            x = ["Min"]
             var_min = dsf.v_min(result_final)
-            var_min_frame = pd.DataFrame(var_min)
+            var_min_frame = pd.DataFrame(var_min, columns=x)
             d_statistics_stored.append(var_min_frame)
 
         elif i == "max":
+            x = ["Max"]
             var_max = dsf.v_max(result_final)
-            var_max_frame = pd.DataFrame(var_max)
+            var_max_frame = pd.DataFrame(var_max, columns=x)
             d_statistics_stored.append(var_max_frame)
 
         elif i == "mode":
+            x = ["Mode"]
             var_mode = dsf.mode(result_final)
-            var_mode_frame = pd.DataFrame(var_mode)
+            var_mode_frame = pd.DataFrame(var_mode, columns=x)
             d_statistics_stored.append(var_mode_frame)
             
         elif i == "variance":
+            x = ["Variance"]
             var_variance = dsf.variance(result_final)
-            var_variance_frame = pd.DataFrame(var_variance)
+            var_variance_frame = pd.DataFrame(var_variance, columns=x)
             d_statistics_stored.append(var_variance_frame)
             
         elif i == "standard deviation":
+            x = ["Standard Deviation"]
             var_standard_deviation = dsf.standard_deviation(result_final)
-            var_standard_deviation_frame = pd.DataFrame(var_standard_deviation)
+            var_standard_deviation_frame = pd.DataFrame(var_standard_deviation, columns=x)
             d_statistics_stored.append(var_standard_deviation_frame)
 
         else:
             print("Invalid options specified. Try again.")
             d_statistics_stored.clear()
 
-            g.user_decisions()
+            user_decisions()
 
-    print(d_statistics_stored)
 
     return d_statistics_stored
 
@@ -110,19 +116,23 @@ def recursive_user_input():
 
         print(result_final)
 
+        acf.store_dataframe(result_final)
+
         d_statistics_stored = descriptive_stats_ex(result_final)
 
-        stats = reduce(lambda left, right: pd.DataFrame.join(left, right), d_statistics_stored)
+        ## here I have to re write it. Either find a way to use the var names as indexes to join on
+        ## or to user .merge instead. But I dont know how that works with lambda.
+        stats = reduce(lambda left, right: pd.DataFrame.merge(left, right, left_index=True, right_index=True), d_statistics_stored)
 
         print(stats)
 
-        exit()
+        user_decisions()
 
     else:
         recursive_user_input()
 
 
-def descriptive_statistics():
+def descriptive_statistics_options():
     options = input("""
 Which of the following options do you want to select?
 Multiple can be selected using a semicolon
@@ -145,19 +155,23 @@ mean, median, min, max, mode, variance, standard deviation
 def user_decisions():
     dec = input("""
 Command Options:
-generate dataset, load dataset, append dataset, descriptive statistics, exit
+generate dataset, load dataset, safe dataset, append dataset, descriptive statistics options, exit
 >""")
 
     if dec == "generate dataset":
         recursive_user_input()
 
     elif dec == "load dataset":
+        load_dataset()
         pass
-    
+
+    elif dec == "safe dataset":
+        safe_dataset()
+        pass
     elif dec == "append dataset":
         pass
-    elif dec == "descriptive statistics":
-        descriptive_statistics()
+    elif dec == "descriptive statistics options":
+        descriptive_statistics_options()
 
     elif dec == "exit":
 
@@ -168,9 +182,7 @@ generate dataset, load dataset, append dataset, descriptive statistics, exit
         print("Not a valid command. Try again.\n\n")
         user_decisions()
 
-
 list_of_results = []
-
 
 print("Hello, which of the following actions would you like to do?")
 user_decisions()
