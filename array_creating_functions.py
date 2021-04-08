@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import array_functions as af
 import random
+import json
 
 
 def create_variable_number(var_type, num_of_obs, bot, top):
@@ -133,5 +134,39 @@ def array_creation_string_bool(how_many_vars, which_type, number_of_obs):
 
     return array
 
-def store_dataframe(dataframe):
-    dataframe.to_csv('out.csv')
+def store_dataframe(form, name, data):
+    ## Have to build logic that differs between which datafromat is requested
+    ## by the user.
+    if form == "csv":
+        data.to_csv(f"{name}.csv")
+
+    elif form == "json":
+        data.to_json(f"{name}.txt")
+
+    elif form == "stata":
+        data.to_excel(f"{name}.dta")
+
+    elif form == "spss":
+        data.to_spss(f"{name}.csv")
+    else:
+        print("Invalid specifications.")
+
+def load_dataframe(form, name):
+    if form == "csv":
+        dataframe = pd.read_csv(name)
+        return dataframe
+
+    elif form == "json":
+        dataframe = pd.read_json(name)
+        return dataframe
+
+    elif form == "stata":
+        dataframe = pd.read_excel(name)
+        return dataframe
+
+    elif form == "spss":
+        dataframe = pd.read_spss(name)
+        return dataframe
+
+    else:
+        print("Invalid specifications.")

@@ -112,11 +112,11 @@ def recursive_user_input():
         recursive_user_input()
 
     elif con == "no":
-        result_final = reduce(lambda left, right: pd.DataFrame.join(left, right), list_of_results)
+        result_final = reduce(lambda left, right: pd.DataFrame.merge(left, right, left_index=True, right_index=True), list_of_results)
 
         print(result_final)
 
-        acf.store_dataframe(result_final)
+        ## Here I have to fill in a condition. Check if the settings.txt file is empty or not.
 
         d_statistics_stored = descriptive_stats_ex(result_final)
 
@@ -126,7 +126,11 @@ def recursive_user_input():
 
         print(stats)
 
+        ## The stats have to be written into a csv file or something. At best into the same.
+        data.clear()
+        data.append(result_final)
         user_decisions()
+        
 
     else:
         recursive_user_input()
@@ -138,6 +142,7 @@ Which of the following options do you want to select?
 Multiple can be selected using a semicolon
 Options:
 mean, median, min, max, mode, variance, standard deviation
+
 >""")
 
     options2 = options.replace(" ", "")
@@ -147,15 +152,69 @@ mean, median, min, max, mode, variance, standard deviation
 
     print(options_split)
 
-    iof.new_json_txt(options_split)
+    iof.new_json_txt(options_split, "settings.txt")
 
     user_decisions()
+
+def safe_dataset():
+    form = input("""
+Which format should be used to safe the data?
+Options:
+csv, json, stata, excel
+
+>""")
+
+    name = input("""
+Under what name should the dataset be safed?
+
+>""")
+    data2 = data[0]
+
+    iof.store_dataframe(form, name, data2)
+    user_decisions()
+
+def load_dataset():
+    form = input("""
+What kind of dataset would you like to load?
+Options:
+csv, json, stata, excel
+
+>""")
+
+    name = input("""
+What is the full name of the file?
+
+>""")
+
+    dataset = iof.load_dataframe(form, name)
+    app_or_not = input("""
+Do you want to append the allready loaded dataset or clear it first?
+Options:
+append, clear
+>""")
+    if app_or_not == "append":
+        list_of_results.append(dataset)
+        data.append(dataset)
+    elif app_or_not == "clear":
+        list_of_results.clear()
+        list_of_results.append(dataset)
+        data.clear()
+        data.append(dataset)
+    else:
+        print("Invalid option specified")
+        load_dataset()
+
+    user_decisions()
+
+def append_dataset():
+    recursive_user_input()
 
 
 def user_decisions():
     dec = input("""
 Command Options:
-generate dataset, load dataset, safe dataset, append dataset, descriptive statistics options, exit
+generate dataset, load dataset, safe dataset, append dataset, descriptive statistics options, clear all, exit
+
 >""")
 
     if dec == "generate dataset":
@@ -163,19 +222,23 @@ generate dataset, load dataset, safe dataset, append dataset, descriptive statis
 
     elif dec == "load dataset":
         load_dataset()
-        pass
 
     elif dec == "safe dataset":
         safe_dataset()
-        pass
+    
     elif dec == "append dataset":
-        pass
+        append_dataset()
+
     elif dec == "descriptive statistics options":
         descriptive_statistics_options()
 
-    elif dec == "exit":
-
+    elif dec == "clear all":
         iof.clear_txt("settings.txt")
+        list_of_results.clear()
+        data.clear()
+        user_decisions()
+
+    elif dec == "exit":
 
         exit()
     else:
@@ -184,6 +247,7 @@ generate dataset, load dataset, safe dataset, append dataset, descriptive statis
 
 list_of_results = []
 
+data = []
+
 print("Hello, which of the following actions would you like to do?")
 user_decisions()
-
