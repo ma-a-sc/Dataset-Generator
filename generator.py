@@ -117,16 +117,20 @@ def recursive_user_input():
         print(result_final)
 
         ## Here I have to fill in a condition. Check if the settings.txt file is empty or not.
+        
+        with open ("settings.txt", "r") as file:
+            x = json.load(file)
+            length_settings = len(x)
+            if length_settings > 0:
+                d_statistics_stored = descriptive_stats_ex(result_final)
 
-        d_statistics_stored = descriptive_stats_ex(result_final)
+                stats = reduce(lambda left, right: pd.DataFrame.merge(left, right, left_index=True, right_index=True), d_statistics_stored)
 
-        ## here I have to re write it. Either find a way to use the var names as indexes to join on
-        ## or to user .merge instead. But I dont know how that works with lambda.
-        stats = reduce(lambda left, right: pd.DataFrame.merge(left, right, left_index=True, right_index=True), d_statistics_stored)
+                print(stats)
 
-        print(stats)
+            else:
+                pass
 
-        ## The stats have to be written into a csv file or something. At best into the same.
         data.clear()
         data.append(result_final)
         user_decisions()
