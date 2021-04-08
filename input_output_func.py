@@ -23,7 +23,7 @@ def store_dataframe(form, name, data):
         new_json_txt(information, f"{name}.txt")
 
     elif form == "stata":
-        data.to_stata(f"{name}.dta", index=False)
+        data.to_stata(f"{name}.dta", write_index=False)
 
     elif form == "excel":
         data.to_excel(f"{name}.xlsx", index=False)
