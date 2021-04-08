@@ -112,6 +112,11 @@ def recursive_user_input():
         recursive_user_input()
 
     elif con == "no":
+        ## logic for the case that the user just accidentially got into this and want to get out
+
+        ## I have to find a solution to the index problem. If the user wants to 
+        ## append data and the there are more obeervations than in the 
+        ## previous the data is simply gone.
         result_final = reduce(lambda left, right: pd.DataFrame.merge(left, right, left_index=True, right_index=True), list_of_results)
 
         print(result_final)

@@ -48,11 +48,11 @@ def fill_string_array(list_of_choices, number_of_obs):
 
 def choices_loop():
 
-    how_many_choices = int(input("How many different possibilities should the variable have?"))
+    how_many_choices = int(input("How many different possibilities should the variable have?\n>"))
     x = 0
     list_of_choices = []
     while x < how_many_choices:
-        new_choice = input("Please name the possibility:\n>")
+        new_choice = input("\nPlease name the possibility:\n>")
         list_of_choices.append(new_choice)
         x += 1
 

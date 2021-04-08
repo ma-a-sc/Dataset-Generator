@@ -7,25 +7,26 @@ def new_json_txt(information, file):
 
 def clear_txt(file):
     with open(file, 'w+') as file:
-        file.truncate()
+        file.write(json.dumps([]))
 
 def store_dataframe(form, name, data):
     ## Have to build logic that differs between which datafromat is requested
     ## by the user.
     if form == "csv":
-        data.to_csv(f"{name}.csv")
+        data.to_csv(f"{name}.csv", index=False)
 
     elif form == "json":
-        information = data.to_json()
-        ## only converts to a json string have to add the code to write it to a 
-        ## txt file.
+
+        ## safes the indexes as a the first column. If I load the data it will be
+        ## in the first column.
+        information = data.to_json(orient='split', index=False)
         new_json_txt(information, f"{name}.txt")
 
     elif form == "stata":
-        data.to_stata(f"{name}.dta")
+        data.to_stata(f"{name}.dta", index=False)
 
     elif form == "excel":
-        data.to_excel(f"{name}.xlsx")
+        data.to_excel(f"{name}.xlsx", index=False)
 
     else:
         print("Invalid specifications.")
@@ -38,8 +39,11 @@ def load_dataframe(form, name):
     elif form == "json":    
         ## Here there are problems loading the file
         ## ValueError("DataFrame constructor not properly called!")
-        dataframe = pd.read_json(name)
-        return dataframe
+         with open (name, "r") as file:
+            x = json.load(file)
+            dataframe = pd.read_json(x, orient='split')
+
+            return dataframe
 
     elif form == "stata":
         dataframe = pd.read_excel(name)
