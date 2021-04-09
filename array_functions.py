@@ -1,5 +1,5 @@
 import random
-
+# Generates the index used to create the dataframe.
 def index_setter(int_input):
     x = 1
     y = 1
@@ -12,39 +12,49 @@ def index_setter(int_input):
 
     return indexes
 
+# fills a list with random integers with min=bot and max=top. How many are
+# base on the number_of_obs.
+# Returns the list.
 
 def fill_int_aray(bot, top, number_of_obs):
     x = 0
 
-    array = []
+    list_obs = []
 
     while x < number_of_obs:
         y = random.randint(bot, top)
-        array.append(y)
+        list_obs.append(y)
 
         x += 1
 
-    return array
+    return list_obs
+
+# Same as fill_int_array just that the numbers are floatpoint numbers.
 
 def fill_float_array(bot, top, number_of_obs):
     x = 0
 
-    array = []
+    list_obs = []
 
     while x < number_of_obs:
         y = random.uniform(bot, top)
-        array.append(y)
+        list_obs.append(y)
 
         x += 1
 
-    return array
+    return list_obs
+
+# Fills the list of observation based on the different possibilities (list_of_
+# choices) and the length of the list is determined by number_of_obs.
 
 def fill_string_array(list_of_choices, number_of_obs):
 
-    array = random.choices(list_of_choices, k=number_of_obs)
+    list_obs = random.choices(list_of_choices, k=number_of_obs)
 
-    return array
+    return list_obs
 
+# This loop lets the user specify the different posibilites the variable can 
+# have.
 
 def choices_loop():
 

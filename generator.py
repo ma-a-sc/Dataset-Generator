@@ -12,6 +12,10 @@ import input_output_func as iof
 ### list, arrays and dataframes. This is incorrect and I will fix this issue.
 ### However, at the moment the programm works as intended.
 
+### I want to implement options for normal distribution and other options
+### so that the tool can be of real use. At the moment the tool is too random
+### to be of use to any socialscience scholar.
+
 
 # The function reades the settings stored in the settings.txt file reads them
 # and performs the operations based on the specified settings. It stores the 
@@ -96,19 +100,19 @@ int, float, dummy, string, boolean
     number_of_obs = int(input("How many observations should be created?\n>"))
 
     if which_type == "int":
-        array = acf.array_creation_numbers(how_many_vars, which_type, number_of_obs)
+        array = acf.array_creation_num(how_many_vars, which_type, number_of_obs)
 
     elif which_type == "float":
-        array = acf.array_creation_numbers(how_many_vars, which_type, number_of_obs)
-
+        array = acf.array_creation_num(how_many_vars, which_type, number_of_obs)
+    ## we have to restructe the dummy thing
     elif which_type == "dummy":
-        array = acf.array_creation_numbers(how_many_vars, which_type, number_of_obs)
+        array = acf.array_creation_s_b_d(how_many_vars, which_type, number_of_obs)
 
     elif which_type == "string":
-        array = acf.array_creation_string_bool(how_many_vars, which_type, number_of_obs)
+        array = acf.array_creation_s_b_d(how_many_vars, which_type, number_of_obs)
 
     elif which_type == "boolean":
-        array = acf.array_creation_string_bool(how_many_vars, which_type, number_of_obs)
+        array = acf.array_creation_s_b_d(how_many_vars, which_type, number_of_obs)
 
     else:
         exit()

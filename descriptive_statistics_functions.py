@@ -1,5 +1,11 @@
 import pandas as pd
 
+### This whole file is only used to return the mean, median etc of the 
+### array passed to the respective functions.
+### axis=0 is used to get the column names to index side of the final output of 
+### the function that calls these functions. The column name will be the 
+### respective descriptive option defined by the user.
+
 def mean(array):
     
     result = array.mean(axis=0)

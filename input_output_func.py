@@ -1,14 +1,26 @@
 import json
 import pandas as pd
 
+# used to create a new .txt file with a json object in it.
 def new_json_txt(information, file):
     with open(file, 'w') as file:
         file.write(json.dumps(information, indent = 2))
 
+# clears a .txt file and enters a empty json object into it.
+# The empty object is necessary, because otherwise if the programm tries
+# to read the file using json an error will be thrown out. The programm has to 
+# be able to a .txt file with an empty json object in case the user does not 
+# want to have a descriptive statistics output.
 def clear_txt(file):
     with open(file, 'w+') as file:
         file.write(json.dumps([]))
 
+# stores the data in a file. The format and name are defined by the user.
+# index=False is used to drop the indexes in the files. This is necessary cause 
+# otherwise there would allways be doulbe index columns if the user opens
+# the file using e.g. Excel.
+# Orient has to be the same as in the load_dataframe otherwise the file can not
+# be opened properly.
 def store_dataframe(form, name, data):
     if form == "csv":
         data.to_csv(f"{name}.csv", index=False)
@@ -26,6 +38,10 @@ def store_dataframe(form, name, data):
 
     else:
         print("Invalid specifications.")
+
+# Loads a file specified by the user and returns the contents.
+# Orient has to be the same as in the store_dataframe function otherwise the file
+# can not be opened properly.
 
 def load_dataframe(form, name):
     if form == "csv":
