@@ -8,10 +8,18 @@ import array_creating_functions as acf
 import descriptive_statistics_functions as dsf
 import input_output_func as iof
 
+### Within this programm I have often used the word array interchangeably with 
+### list, arrays and dataframes. This is incorrect and I will fix this issue.
+### However, at the moment the programm works as intended.
+
+
+# The function reades the settings stored in the settings.txt file reads them
+# and performs the operations based on the specified settings. It stores the 
+# results in d_statistics_stored.
 
 def descriptive_stats_ex(result_final):
-    with open("settings.txt", 'r') as m:
-        settings = m.read()
+    with open("settings.txt", 'r') as file:
+        settings = file.read()
             
     settings_var = json.loads(settings)
     print(f"\n\n{settings_var}")
@@ -70,7 +78,14 @@ def descriptive_stats_ex(result_final):
 
     return d_statistics_stored
 
-def user_inputs(): 
+
+# The function asks the user for the number of variables, type of variable and 
+# nuber of observations. Based on the type the array creating functions in
+# array_creating_functions.py are called and the collected data
+# is passed to the function. 
+# In the end the results are return as array.
+
+def user_inputs_for_array(): 
     how_many_vars = int(input("How many variables should be created?\n>"))
 
     which_type = input("""
@@ -100,50 +115,71 @@ int, float, dummy, string, boolean
 
     return array
 
+# The function first checks if the user wants to add more variables, because 
+# the function calls it self.
 
 def recursive_user_input():
     con = input("Do you want to add variables?\nyes/no\n>")
 
+    # if the user specifies "yes" then the user_input_for_array function is called
+    # and the result is then appended to the list_of_results.
+    # Afterwards the function is called again for the chance that the user
+    # wants to add more variables of the same or anohter type.
     if con == "yes":
-        array = user_inputs()
+        array = user_inputs_for_array()
         result = pd.concat(array, axis=1)
         list_of_results.append(result)
 
         recursive_user_input()
 
+    # if the user specifies "no" then first the length of the list_of_results
+    # is check in case the user has by accident typed in "no".
+    # If the the list has results in it then the data in list_of_results
+    # is merged from left to right unsing the indexes of the DataFrames to merge
+    # on.
     elif con == "no":
-        ## logic for the case that the user just accidentially got into this and want to get out
-
-        ## I have to find a solution to the index problem. If the user wants to 
-        ## append data and the there are more obeervations than in the 
-        ## previous the data is simply gone.
-        result_final = reduce(lambda left, right: pd.DataFrame.merge(left, right, left_index=True, right_index=True), list_of_results)
-
-        print(result_final)
-
-        ## Here I have to fill in a condition. Check if the settings.txt file is empty or not.
+        len_list_of_results = len(list_of_results)
+        if len_list_of_results > 0:
         
-        with open ("settings.txt", "r") as file:
-            x = json.load(file)
-            length_settings = len(x)
-            if length_settings > 0:
-                d_statistics_stored = descriptive_stats_ex(result_final)
+            result_final = reduce(lambda left, right: pd.DataFrame.merge(left, right, left_index=True, right_index=True), list_of_results)
 
-                stats = reduce(lambda left, right: pd.DataFrame.merge(left, right, left_index=True, right_index=True), d_statistics_stored)
+            print(result_final)
 
-                print(stats)
+            # Here the length of the json object stored in settings.txt is checked
+            # If there are options specified in it the length is >0. Then the
+            # descripitce_stats_ex function is called with the completely merged
+            # dataframe as argument.
+            # Then the results of the descriptive statistics are also merged
+            # based on their indexes.
+            with open ("settings.txt", "r") as file:
+                x = json.load(file)
+                length_settings = len(x)
+                if length_settings > 0:
+                    d_statistics_stored = descriptive_stats_ex(result_final)
 
-            else:
-                pass
+                    stats = reduce(lambda left, right: pd.DataFrame.merge(left, right, left_index=True, right_index=True), d_statistics_stored)
 
-        data.clear()
-        data.append(result_final)
-        user_decisions()
-        
+                    print(stats)
+
+                else:
+                    pass
+            
+            # The clearing of data is needed because the data in the list data
+            # is passed to the function store_dataframe using the index of 0.
+            # Data has to have only one entry to safe the DataFrame to either of 
+            # file types.
+            data.clear()
+            data.append(result_final)
+            user_decisions()
+        else:
+            print("\nNo data to merge.\n")
+            recursive_user_input()
 
     else:
         recursive_user_input()
 
+# This function takes the user input and stores it into a .txt file as a 
+# json object. 
 
 def descriptive_statistics_options():
     options = input("""
@@ -153,7 +189,8 @@ Options:
 mean, median, min, max, mode, variance, standard deviation
 
 >""")
-
+    # replaces the spaces in the user input and splits the options
+    # based on the semicolon in the input.
     options2 = options.replace(" ", "")
     options_split = options2.split(";")
 
@@ -164,6 +201,13 @@ mean, median, min, max, mode, variance, standard deviation
     iof.new_json_txt(options_split, "settings.txt")
 
     user_decisions()
+
+
+# safe_dataset safes the data stored in the list data at the index 0 to a file
+# in the format specified by the user. At the end passes the information to 
+# a storing function which has the logic to distinguish between the formats.
+
+### Here the option for a path is missing. I should add that.
 
 def safe_dataset():
     form = input("""
@@ -181,6 +225,10 @@ Under what name should the dataset be safed?
 
     iof.store_dataframe(form, name, data2)
     user_decisions()
+
+# load_dataset loads a dataset based on the user input and then asks to clear
+# the information allready present in the programm (other generated or loaded
+# data) or to append on it.
 
 def load_dataset():
     form = input("""
@@ -203,21 +251,18 @@ append, clear
 >""")
     if app_or_not == "append":
         list_of_results.append(dataset)
-        data.append(dataset)
     elif app_or_not == "clear":
         list_of_results.clear()
         list_of_results.append(dataset)
         data.clear()
-        data.append(dataset)
     else:
         print("Invalid option specified")
         load_dataset()
 
     user_decisions()
 
-def append_dataset():
-    recursive_user_input()
-
+# The function that is called at the end of all the functions within it.
+# Used to determine what the user wants to do.
 
 def user_decisions():
     dec = input("""
@@ -236,7 +281,7 @@ generate dataset, load dataset, safe dataset, append dataset, descriptive statis
         safe_dataset()
     
     elif dec == "append dataset":
-        append_dataset()
+        recursive_user_input()
 
     elif dec == "descriptive statistics options":
         descriptive_statistics_options()
